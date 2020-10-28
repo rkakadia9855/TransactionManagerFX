@@ -42,8 +42,6 @@ the Savings. You are required to disable the options that are not applicable. Fo
 customer option if Checking or MoneyMarket is selected, and disable direct deposit if Savings or
 MoneyMarket is selected. -2 points for each violation.
 (f) You MUST set the title of the primaryStage (title for the window.) -2 points if you don’t.
-
-2 | Page
 (g) You must provide the functionality on the GUI to import and export a text file. A text file “database.txt” is
 provided for you to test your program. You can “import” the “database.txt” to your AccountDatabase and
 export the AccountDatabase to a text file with the name you like. Data tokens in the text files must be
