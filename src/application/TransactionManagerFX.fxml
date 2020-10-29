@@ -65,7 +65,7 @@
                                  <GridPane.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </GridPane.margin></DatePicker>
-                              <RadioButton fx:id="checking" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#checkingSelected" text="Checking" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+                              <RadioButton fx:id="checking" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#checkingSelected" selected="true" text="Checking" GridPane.columnIndex="2" GridPane.halignment="LEFT">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="accountType" />
                                  </toggleGroup>
@@ -85,7 +85,7 @@
                                  <GridPane.margin>
                                     <Insets left="20.0" />
                                  </GridPane.margin></CheckBox>
-                              <CheckBox fx:id="loyalCustomer" mnemonicParsing="false" prefWidth="120.0" text="Loyal Customer" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+                              <CheckBox fx:id="loyalCustomer" disable="true" mnemonicParsing="false" prefWidth="120.0" text="Loyal Customer" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets left="20.0" />
                                  </GridPane.margin></CheckBox>
@@ -126,7 +126,7 @@
                               <Label text="Amount" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                               <TextField fx:id="firstName2" GridPane.columnIndex="1" />
                               <TextField fx:id="amount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <RadioButton fx:id="checking2" mnemonicParsing="false" text="Checking" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+                              <RadioButton fx:id="checking2" mnemonicParsing="false" selected="true" text="Checking" GridPane.columnIndex="2" GridPane.halignment="LEFT">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="accountType2" />
                                  </toggleGroup>
@@ -140,12 +140,12 @@
                                  </padding>
                               </RadioButton>
                               <RadioButton fx:id="moneymarket2" mnemonicParsing="false" text="Money Market" toggleGroup="$accountType2" GridPane.columnIndex="3" GridPane.halignment="LEFT" />
-                              <Button fx:id="deposit" mnemonicParsing="false" prefHeight="25.0" prefWidth="86.0" text="Deposit" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                              <Button fx:id="deposit" mnemonicParsing="false" onAction="#depositMoney" prefHeight="25.0" prefWidth="86.0" text="Deposit" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                                  <GridPane.margin>
                                     <Insets left="25.0" />
                                  </GridPane.margin>
                               </Button>
-                              <Button fx:id="withdraw" mnemonicParsing="false" prefHeight="25.0" prefWidth="93.0" text="Withdraw" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+                              <Button fx:id="withdraw" mnemonicParsing="false" onAction="#withdrawMoney" prefHeight="25.0" prefWidth="93.0" text="Withdraw" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                      </children></AnchorPane>
@@ -171,6 +171,6 @@
       </TabPane>
    </top>
    <center>
-      <TextArea prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <TextArea fx:id="outputConsole" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
