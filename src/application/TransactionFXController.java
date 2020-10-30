@@ -1,5 +1,6 @@
 package application;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -177,10 +178,10 @@ public class TransactionFXController {
     @FXML
     void openAccountClicked(ActionEvent event) {
       boolean validDataEntered = true;
-      int initialBalance = 0;
+      double initialBalance = 0;
      // AccountDatabase db = new AccountDatabase();
       try {
-          initialBalance = Integer.parseInt(balance.getText()); 
+          initialBalance = Double.parseDouble(balance.getText()); 
           if(initialBalance < 0) {
             throw new Exception("Cannot enter negative value in the balance field.");
           }
@@ -211,6 +212,9 @@ public class TransactionFXController {
          int month = Integer.parseInt(values[1]);
          int day = Integer.parseInt(values[2]);
          dateOpen = new Date (month,day,year);
+         if(!dateOpen.isValid()) {
+           validDataEntered = false;
+         }
       }
       else {
         Alert alert = new Alert(AlertType.WARNING);
@@ -332,9 +336,10 @@ public class TransactionFXController {
     @FXML
     void withdrawMoney(ActionEvent event) {
       boolean validDataEntered = true;
+      double withdrawAmount = 0.0;
       try {
-          int initialBalance = Integer.parseInt(amount.getText()); 
-          if(initialBalance < 0) {
+        withdrawAmount = Double.parseDouble(amount.getText()); 
+          if(withdrawAmount < 0) {
             throw new Exception("Cannot enter negative value in the amount field.");
           }
       }
@@ -372,16 +377,37 @@ public class TransactionFXController {
         validDataEntered = false;
       }
       if(validDataEntered) {
-        // do further processing
+         int withdrawn = -1;
+         Profile holder = new Profile(firstName2.getText(), lastName2.getText());
+         DecimalFormat formatter = new DecimalFormat("#,##0.00");
+         if(checking2.isSelected()) {
+           withdrawn = db.withdrawal(new Checking(holder, 0, null), withdrawAmount);
+         }
+         else if(savings2.isSelected()) {
+           withdrawn = db.withdrawal(new Savings(holder, 0, null), withdrawAmount);
+         }
+         else if(moneymarket2.isSelected()) {
+           withdrawn = db.withdrawal(new MoneyMarket(holder, 0, null), withdrawAmount);
+         }
+         if(withdrawn == 0) {
+           outputConsole.appendText(formatter.format(withdrawAmount) + " withdrawn from account.\n");
+         }
+         else if(withdrawn == -1) {
+           outputConsole.appendText("Account does not exist.\n");
+         }
+         else if(withdrawn == 1) {
+           outputConsole.appendText("Insufficient funds.\n");
+         }
       }
     }
     
     @FXML
     void depositMoney(ActionEvent event) {
       boolean validDataEntered = true;
+      double depositAmount = 0.0;
       try {
-          int initialBalance = Integer.parseInt(amount.getText()); 
-          if(initialBalance < 0) {
+        depositAmount = Double.parseDouble(amount.getText()); 
+          if(depositAmount < 0) {
             throw new Exception("Cannot enter negative value in the amount field.");
           }
       }
@@ -419,7 +445,24 @@ public class TransactionFXController {
         validDataEntered = false;
       }
       if(validDataEntered) {
-        // do further processing
+        Profile holder = new Profile(firstName2.getText(), lastName2.getText());
+        boolean depositSuccessful = false;
+        if(checking2.isSelected()) {
+          depositSuccessful = db.deposit(new Checking(holder, 0, null), depositAmount);
+        }
+        else if(savings2.isSelected()) {
+          depositSuccessful = db.deposit(new Savings(holder, 0, null), depositAmount);
+        }
+        else if(moneymarket2.isSelected()) {
+          depositSuccessful = db.deposit(new MoneyMarket(holder, 0, null), depositAmount);
+        }
+        DecimalFormat formatter = new DecimalFormat("#,##0.00");
+        if(depositSuccessful) {
+          outputConsole.appendText(formatter.format(depositAmount) + " deposited to account.\n");
+        }
+        else {
+          outputConsole.appendText("Account does not exist.\n");
+        }
       }
     }
 
