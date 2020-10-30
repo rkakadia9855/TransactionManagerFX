@@ -14,6 +14,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 
 public class TransactionFXController {
+	
+	AccountDatabase db = new AccountDatabase();
 
     @FXML
     private TextField lastName;
@@ -92,12 +94,77 @@ public class TransactionFXController {
 
     @FXML
     void clearClicked(ActionEvent event) {
-
+    	firstName.clear();
+    	lastName.clear();
+    	dateOpen.getEditor().clear();
+    	balance.clear();
+    	checking.setSelected(false);
+    	savings.setSelected(false);
+    	moneymarket.setSelected(false);
+    	directDeposit.setSelected(false);
+    	loyalCustomer.setSelected(false);
     }
 
     @FXML
     void closeAccountClicked(ActionEvent event) {
-
+    	boolean validDataEntered = true;
+    	
+    	if(firstName.getText().equals("")) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning!!");
+            alert.setHeaderText("Null value entered.");
+            alert.setContentText("First Name cannot be left null.");
+            alert.showAndWait();
+            validDataEntered = false;
+          }
+          if(lastName.getText().equals("")) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning!!");
+            alert.setHeaderText("Null value entered.");
+            alert.setContentText("Last Name cannot be left null.");
+            alert.showAndWait();
+            validDataEntered = false;
+          }
+          
+          if(validDataEntered) {
+        	  if(checking.isSelected()) {
+        		  String fname = firstName.getText();
+    			  String lname = lastName.getText();
+    			  Profile holder = new Profile(fname, lname);
+    			  boolean accountRemoved = db.remove(new Checking(holder,0.0,null));
+    			  
+    			  if(!accountRemoved) {
+    		          outputConsole.appendText("Account does not exist." + "\n");
+    		        }
+    		        else {
+    		          outputConsole.appendText("Account closed and removed from the database." + "\n");
+    		        }
+        	  } else if(savings.isSelected()) {
+        		  String fname = firstName.getText();
+    			  String lname = lastName.getText();
+    			  Profile holder = new Profile(fname, lname);
+    			  boolean accountRemoved = db.remove(new Savings(holder,0.0,null));
+    			  
+    			  if(!accountRemoved) {
+    		          outputConsole.appendText("Account does not exist." + "\n");
+    		        }
+    		        else {
+    		          outputConsole.appendText("Account closed and removed from the database." + "\n");
+    		        }
+        	  } else if (moneymarket.isSelected()) {
+        		  String fname = firstName.getText();
+    			  String lname = lastName.getText();
+    			  Profile holder = new Profile(fname, lname);
+    			  boolean accountRemoved = db.remove(new MoneyMarket(holder,0.0,null));
+    			  
+    			  if(!accountRemoved) {
+    		          outputConsole.appendText("Account does not exist." + "\n");
+    		        }
+    		        else {
+    		          outputConsole.appendText("Account closed and removed from the database." + "\n");
+    		        }
+        	  }
+          }
     }
 
     @FXML
@@ -105,12 +172,15 @@ public class TransactionFXController {
       directDeposit.setDisable(true);
       loyalCustomer.setDisable(true);
     }
+    
 
     @FXML
     void openAccountClicked(ActionEvent event) {
       boolean validDataEntered = true;
+      int initialBalance = 0;
+     // AccountDatabase db = new AccountDatabase();
       try {
-          int initialBalance = Integer.parseInt(balance.getText()); 
+          initialBalance = Integer.parseInt(balance.getText()); 
           if(initialBalance < 0) {
             throw new Exception("Cannot enter negative value in the balance field.");
           }
@@ -134,6 +204,13 @@ public class TransactionFXController {
       }
       // change type from localdate to out date object
       LocalDate date = dateOpen.getValue();
+      
+      	String[] values = date.toString().split("-");
+      	 int year = Integer.parseInt(values[0]);
+         int month = Integer.parseInt(values[1]);
+         int day = Integer.parseInt(values[2]);
+         Date dateOpen = new Date (month,day,year);
+        
       // we can use the isValid method of our transactionmanager date class to validate the date
       if(firstName.getText().equals("")) {
         Alert alert = new Alert(AlertType.WARNING);
@@ -151,8 +228,80 @@ public class TransactionFXController {
         alert.showAndWait();
         validDataEntered = false;
       }
+      //AccountDatabase db = new AccountDatabase();
       if(validDataEntered) {
         // do further processing
+    	  
+    	  if(checking.isSelected()) {
+    		  if(directDeposit.isSelected()) {
+    			  String fname = firstName.getText();
+    			  String lname = lastName.getText();
+    			  Profile holder = new Profile(fname, lname);
+    			  Checking temp = new Checking(holder,initialBalance,dateOpen);
+    			  temp.setDirectDeposit(true);
+    			  
+    			  if(db.add(temp)) {
+    				  outputConsole.appendText("Account added to Database" + "\n");
+    			  }else {
+    				  outputConsole.appendText("Account is already in Database" + "\n");
+    			  }
+    			  
+    			 
+    		  }else{
+    			  String fname = firstName.getText();
+    			  String lname = lastName.getText();
+    			  Profile holder = new Profile(fname, lname);
+    			  Checking temp = new Checking(holder,initialBalance,dateOpen);
+    			 
+    			  temp.setDirectDeposit(false);
+    			  
+    			  if(db.add(temp)) {
+    				  outputConsole.appendText("Account added to Database" + "\n");
+    			  }else {
+    				  outputConsole.appendText("Account is already in Database" + "\n");
+    			  }  
+    		  }
+    	  } else if(savings.isSelected()) {
+    		  if(loyalCustomer.isSelected()) {
+    			  String fname = firstName.getText();
+    			  String lname = lastName.getText();
+    			  Profile holder = new Profile(fname, lname);
+    			  Savings temp = new Savings(holder,initialBalance,dateOpen);
+    			  temp.setLoyal(true);
+    			  
+    			  if(db.add(temp)) {
+    				  outputConsole.appendText("Account added to database" + "\n");
+    			  }else {
+    				  outputConsole.appendText("Account is already in database" + "\n");
+    			  
+    		  }
+    	  }else {
+    		  String fname = firstName.getText();
+			  String lname = lastName.getText();
+			  Profile holder = new Profile(fname, lname);
+			  Savings temp = new Savings(holder,initialBalance,dateOpen);
+			  temp.setLoyal(false);
+			  
+			  if(db.add(temp)) {
+				  outputConsole.appendText("Account added to database" + "\n");
+			  }else {
+				  outputConsole.appendText("Account is already in database" + "\n");
+			  
+			  }
+    	  	}
+    	  } else if (moneymarket.isSelected()) {
+    		  String fname = firstName.getText();
+			  String lname = lastName.getText();
+			  Profile holder = new Profile(fname, lname);
+			  MoneyMarket temp = new MoneyMarket(holder,initialBalance,dateOpen);
+			  
+			  if(db.add(temp)) {
+				  outputConsole.appendText("Account added to database" + "\n");
+			  }else {
+				  outputConsole.appendText("Account is already in database" + "\n");
+			  
+			  }
+    	  }
       }
     }
 
@@ -257,3 +406,4 @@ public class TransactionFXController {
     }
 
 }
+
