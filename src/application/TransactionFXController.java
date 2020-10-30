@@ -1,7 +1,12 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.StringTokenizer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -13,6 +18,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.control.MenuItem;
 
 public class TransactionFXController {
@@ -96,6 +104,12 @@ public class TransactionFXController {
 
     @FXML
     private TextArea outputConsole;
+    
+    @FXML
+    private MenuItem importFile;
+
+    @FXML
+    private MenuItem exportFile;
 
     @FXML
     void checkingSelected(ActionEvent event) {
@@ -496,6 +510,216 @@ public class TransactionFXController {
     void printAccounts(ActionEvent event) {
       String outputPrint = db.printAccounts();
       outputConsole.appendText(outputPrint);
+    }
+    
+    @FXML
+    void exportDataFile(ActionEvent event) {
+      FileChooser chooser = new FileChooser();
+      chooser.setTitle("Open Target File for the Export");
+      chooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
+              new ExtensionFilter("All Files", "*.*"));
+      Stage stage = new Stage();
+      File targeFile = chooser.showSaveDialog(stage); //get the reference of the target file
+      //write code to write to the file.
+    }
+
+    @FXML
+    void importDataFile(ActionEvent event) {
+      FileChooser chooser = new FileChooser();
+      chooser.setTitle("Open Source File for the Import");
+      chooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
+              new ExtensionFilter("All Files", "*.*"));
+      Stage stage = new Stage();
+      File sourceFile = chooser.showOpenDialog(stage); //get the reference of the source file
+      StringTokenizer tokenizeDate;
+      StringTokenizer tokenizeLine;
+      //write code to read from the file.
+      try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile))) {
+
+        String line;
+        int lineNumber = 0;
+        while ((line = reader.readLine()) != null) {
+          lineNumber++;
+          String fname;
+          String lname;
+          Profile holder;
+          Date dateOpen;
+          double balance = 0.0;
+          String dateString = "";
+          boolean lastArg = false;
+          
+          tokenizeLine = new StringTokenizer(line, ",");
+          if(tokenizeLine.countTokens() != 6) {
+            outputConsole.appendText("Invalid number of arguments on line "
+                +lineNumber+". Continuing with next line.\n");
+            continue;
+          }
+          String command = tokenizeLine.nextToken();
+          if(command.equals("C")) {
+            fname = tokenizeLine.nextToken();
+            lname = tokenizeLine.nextToken();
+            holder = new Profile(fname, lname);
+            try {
+              balance = Double.parseDouble(tokenizeLine.nextToken());
+            }
+            catch(NumberFormatException excep) {
+              outputConsole.appendText("Invalid argument type. Balance is not of type double "
+                  + "on line " + lineNumber + "."
+                  + "Continuing with next line.\n");
+              break;
+            }
+            dateString = tokenizeLine.nextToken();
+            tokenizeDate = new StringTokenizer(dateString, "/");
+            int month = 0, day = 0, year = 0;
+            try {
+              month = Integer.parseInt(tokenizeDate.nextToken());
+              day = Integer.parseInt(tokenizeDate.nextToken());
+              year = Integer.parseInt(tokenizeDate.nextToken());
+            }
+            catch(NumberFormatException e) {
+              outputConsole.appendText("Input data type mismatch for date on line "+lineNumber
+                  + ". Continuing with next line\n");
+              continue;
+            }
+            dateOpen = new Date(month, day, year);
+            if(!(dateOpen.isValid())) {
+              outputConsole.appendText(dateString + " on line "+lineNumber+ " is not valid."
+                  + " Continuing with next line.\n");
+              continue;
+            }
+            try {
+              lastArg = Boolean.parseBoolean(tokenizeLine.nextToken());
+            }
+            catch(Exception e) {
+              outputConsole.appendText("Input data type mismatch on line "+lineNumber
+                  + ". Continuing with next line\n");
+              continue;
+            }
+            Checking temp = new Checking(holder, balance, dateOpen);
+            temp.setDirectDeposit(lastArg);
+            if(db.add(temp)) {
+              outputConsole.appendText("Account opened and added to the database.\n");
+            }
+            else {
+              outputConsole.appendText("Account is already in the database.\n");
+            }
+            
+          }
+          else if(command.equals("S")) {
+            fname = tokenizeLine.nextToken();
+            lname = tokenizeLine.nextToken();
+            holder = new Profile(fname, lname);
+            try {
+              balance = Double.parseDouble(tokenizeLine.nextToken());
+            }
+            catch(NumberFormatException excep) {
+              outputConsole.appendText("Invalid argument type. Balance is not of type double "
+                  + "on line " + lineNumber + "."
+                  + "Continuing with next line.\n");
+              break;
+            }
+            dateString = tokenizeLine.nextToken();
+            tokenizeDate = new StringTokenizer(dateString, "/");
+            int month = 0, day = 0, year = 0;
+            try {
+              month = Integer.parseInt(tokenizeDate.nextToken());
+              day = Integer.parseInt(tokenizeDate.nextToken());
+              year = Integer.parseInt(tokenizeDate.nextToken());
+            }
+            catch(NumberFormatException e) {
+              outputConsole.appendText("Input data type mismatch for date on line "+lineNumber
+                  + ". Continuing with next line\n");
+              continue;
+            }
+            dateOpen = new Date(month, day, year);
+            if(!(dateOpen.isValid())) {
+              outputConsole.appendText(dateString + " on line "+lineNumber+ " is not valid."
+                  + " Continuing with next line.\n");
+              continue;
+            }
+            try {
+              lastArg = Boolean.parseBoolean(tokenizeLine.nextToken());
+            }
+            catch(Exception e) {
+              outputConsole.appendText("Input data type mismatch on line "+lineNumber
+                  + ". Continuing with next line\n");
+              continue;
+            }
+            Savings temp = new Savings(holder, balance, dateOpen);
+            temp.setLoyal(lastArg);
+            if(db.add(temp)) {
+              outputConsole.appendText("Account opened and added to the database.\n");
+            }
+            else {
+              outputConsole.appendText("Account is already in the database.\n");
+            }
+          }
+          else if(command.equals("M")) {
+            int numWithdrawals = 0;
+            fname = tokenizeLine.nextToken();
+            lname = tokenizeLine.nextToken();
+            holder = new Profile(fname, lname);
+            try {
+              balance = Double.parseDouble(tokenizeLine.nextToken());
+            }
+            catch(NumberFormatException excep) {
+              outputConsole.appendText("Invalid argument type. Balance is not of type double "
+                  + "on line " + lineNumber + "."
+                  + "Continuing with next line.\n");
+              break;
+            }
+            dateString = tokenizeLine.nextToken();
+            tokenizeDate = new StringTokenizer(dateString, "/");
+            int month = 0, day = 0, year = 0;
+            try {
+              month = Integer.parseInt(tokenizeDate.nextToken());
+              day = Integer.parseInt(tokenizeDate.nextToken());
+              year = Integer.parseInt(tokenizeDate.nextToken());
+            }
+            catch(NumberFormatException e) {
+              outputConsole.appendText("Input data type mismatch for date on line "+lineNumber
+                  + ". Continuing with next line\n");
+              continue;
+            }
+            dateOpen = new Date(month, day, year);
+            if(!(dateOpen.isValid())) {
+              outputConsole.appendText(dateString + " on line "+lineNumber+ " is not valid."
+                  + " Continuing with next line.\n");
+              continue;
+            }
+            try {
+              numWithdrawals = Integer.parseInt(tokenizeLine.nextToken());
+           //   lastArg = Boolean.parseBoolean(tokenizeLine.nextToken());
+            }
+            catch(Exception e) {
+              outputConsole.appendText("Input data type mismatch on line "+lineNumber
+                  + ". Continuing with next line\n");
+              continue;
+            }
+            MoneyMarket temp = new MoneyMarket(holder, balance, dateOpen);
+            temp.setWithdrawals(numWithdrawals);
+            if(db.add(temp)) {
+              outputConsole.appendText("Account opened and added to the database.\n");
+            }
+            else {
+              outputConsole.appendText("Account is already in the database.\n");
+            }
+          }
+          else {
+            outputConsole.appendText("Invalid first command: "+command+". Exiting import.\n");
+            break;
+          }
+        }
+
+      } catch (IOException e) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning!!");
+        alert.setHeaderText("I/O Error");
+        alert.setContentText("An error occured while trying to read from a file: "+
+            sourceFile.getName());
+        alert.showAndWait();
+      }
+      
     }
 
 }
