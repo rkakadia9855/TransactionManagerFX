@@ -238,6 +238,14 @@ public class TransactionFXController {
         alert.showAndWait();
         validDataEntered = false;
       }
+      if(!checking.isSelected() && !savings.isSelected() && !moneymarket.isSelected()) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning!!");
+        alert.setHeaderText("Account type unclear.");
+        alert.setContentText("Please select the type of account you would like to open.");
+        alert.showAndWait();
+        validDataEntered = false;
+      }
       //AccountDatabase db = new AccountDatabase();
       if(validDataEntered) {
         // do further processing
