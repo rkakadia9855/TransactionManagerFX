@@ -210,68 +210,74 @@ public class AccountDatabase {
   /**
    * Prints the account statements in ascending order of date opened
    */
-  public void printByDateOpen() {
+  public String printByDateOpen() {
+    String outputString = null;
     if(size != 0) {
-      System.out.println("");
-      System.out.println("--Printing statements by date opened--");
+      outputString = "\n";
+      outputString += "--Printing statements by date opened--\n";
       sortByDateOpen();
       for(int i = 0; i < size; i++) {
-        System.out.println("");
-        System.out.println(accounts[i].toString());
+        outputString += "\n";
+        outputString += accounts[i].toString() + "\n";
         DecimalFormat formatter = new DecimalFormat("#,##0.00");
-        System.out.println("-interest: $ "+ formatter.format(this.calcInterest(accounts[i])));
+        outputString += "-interest: $ "+ formatter.format(this.calcInterest(accounts[i])) + "\n";
         DecimalFormat feeFormatter = new DecimalFormat("#,##0.00");
-        System.out.println("-fee: $ "+ feeFormatter.format(accounts[i].monthlyFee()));
+        outputString += "-fee: $ "+ feeFormatter.format(accounts[i].monthlyFee()) + "\n";
         DecimalFormat balanceFormatter = new DecimalFormat("#,##0.00");
-        System.out.println("-new balance: $ "+ 
-            balanceFormatter.format(this.newBalance(accounts[i])));
+        outputString += "-new balance: $ "+ 
+            balanceFormatter.format(this.newBalance(accounts[i])) + "\n";
       }
-      System.out.println("--end of printing--");
+      outputString += "--end of printing--\n";
     }
     else {
-      System.out.println("Database is empty.");
+      outputString = "Database is empty.\n";
     }
+    return outputString;
   }
     
   /**
    * Prints the account statements in ascending order of last name
    */
-  public void printByLastName() { 
+  public String printByLastName() { 
+    String outputString = null;
     if(size != 0) {
-      System.out.println("");
-      System.out.println("--Printing statements by last name--");
+      outputString = "\n";
+      outputString += "--Printing statements by last name--\n";
       sortByLastName();
       for(int i = 0; i < size; i++) {
-        System.out.println("");
-        System.out.println(accounts[i].toString());
+        outputString += "\n";
+        outputString += accounts[i].toString() + "\n";
         DecimalFormat formatter = new DecimalFormat("#,##0.00");
-        System.out.println("-interest: $ "+ formatter.format(this.calcInterest(accounts[i])));
+        outputString += "-interest: $ "+ formatter.format(this.calcInterest(accounts[i])) + "\n";
         DecimalFormat feeFormatter = new DecimalFormat("#,##0.00");
-        System.out.println("-fee: $ "+ feeFormatter.format(accounts[i].monthlyFee()));
+        outputString += "-fee: $ "+ feeFormatter.format(accounts[i].monthlyFee()) + "\n";
         DecimalFormat balanceFormatter = new DecimalFormat("#,##0.00");
-        System.out.println("-new balance: $ "+ 
-            balanceFormatter.format(this.newBalance(accounts[i])));
+        outputString += "-new balance: $ "+ 
+            balanceFormatter.format(this.newBalance(accounts[i])) + "\n";
       }
-      System.out.println("--end of printing--");
+      outputString += "--end of printing--\n";
     }
     else {
-      System.out.println("Database is empty.");
+      outputString = "Database is empty.\n";
     }
+    return outputString;
   }
     
   /**
    * Lists all the accounts in the bank database
    */
-  public void printAccounts() { 
+  public String printAccounts() { 
+    String outputString = null;
     if(size != 0) {
-      System.out.println("--Listing accounts in the database--");
+      outputString = "--Listing accounts in the database--\n";
       for(int i = 0; i < size; i++) {
-        System.out.println(accounts[i].toString());
+        outputString += accounts[i].toString() + "\n";
       }
-      System.out.println("--end of listing--");
+      outputString += "--end of listing--\n";
     }
     else {
-      System.out.println("Database is empty.");
+      outputString = "Database is empty.\n";
     }
+    return outputString;
   }
 }

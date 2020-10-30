@@ -13,6 +13,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.MenuItem;
 
 public class TransactionFXController {
 	
@@ -83,6 +84,15 @@ public class TransactionFXController {
 
     @FXML
     private Button withdraw;
+    
+    @FXML
+    private MenuItem printAccount;
+
+    @FXML
+    private MenuItem printByLastName;
+
+    @FXML
+    private MenuItem printByDateOpen;
 
     @FXML
     private TextArea outputConsole;
@@ -464,6 +474,24 @@ public class TransactionFXController {
           outputConsole.appendText("Account does not exist.\n");
         }
       }
+    }
+    
+    @FXML
+    void printAccountByDateOpen(ActionEvent event) {
+      String outputPrint = db.printByDateOpen();
+      outputConsole.appendText(outputPrint);
+    }
+
+    @FXML
+    void printAccountByLastName(ActionEvent event) {
+      String outputPrint = db.printByLastName();
+      outputConsole.appendText(outputPrint);
+    }
+
+    @FXML
+    void printAccounts(ActionEvent event) {
+      String outputPrint = db.printAccounts();
+      outputConsole.appendText(outputPrint);
     }
 
 }
