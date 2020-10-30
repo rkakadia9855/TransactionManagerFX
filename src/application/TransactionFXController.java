@@ -100,6 +100,7 @@ public class TransactionFXController {
     @FXML
     void checkingSelected(ActionEvent event) {
       directDeposit.setDisable(false);
+      loyalCustomer.setSelected(false);
       loyalCustomer.setDisable(true);
     }
 
@@ -180,6 +181,8 @@ public class TransactionFXController {
 
     @FXML
     void moneymarketSelected(ActionEvent event) {
+      directDeposit.setSelected(false);
+      loyalCustomer.setSelected(false);
       directDeposit.setDisable(true);
       loyalCustomer.setDisable(true);
     }
@@ -340,6 +343,7 @@ public class TransactionFXController {
     @FXML
     void savingSelected(ActionEvent event) {
       loyalCustomer.setDisable(false);
+      directDeposit.setSelected(false);
       directDeposit.setDisable(true);
     }
     

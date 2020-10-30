@@ -213,8 +213,7 @@ public class AccountDatabase {
   public String printByDateOpen() {
     String outputString = null;
     if(size != 0) {
-      outputString = "\n";
-      outputString += "--Printing statements by date opened--\n";
+      outputString = "\n--Printing statements by date opened--\n";
       sortByDateOpen();
       for(int i = 0; i < size; i++) {
         outputString += "\n";
@@ -227,10 +226,10 @@ public class AccountDatabase {
         outputString += "-new balance: $ "+ 
             balanceFormatter.format(this.newBalance(accounts[i])) + "\n";
       }
-      outputString += "--end of printing--\n";
+      outputString += "\n--end of printing--\n";
     }
     else {
-      outputString = "Database is empty.\n";
+      outputString = "\nDatabase is empty.\n";
     }
     return outputString;
   }
@@ -241,8 +240,7 @@ public class AccountDatabase {
   public String printByLastName() { 
     String outputString = null;
     if(size != 0) {
-      outputString = "\n";
-      outputString += "--Printing statements by last name--\n";
+      outputString = "\n--Printing statements by last name--\n";
       sortByLastName();
       for(int i = 0; i < size; i++) {
         outputString += "\n";
@@ -255,10 +253,10 @@ public class AccountDatabase {
         outputString += "-new balance: $ "+ 
             balanceFormatter.format(this.newBalance(accounts[i])) + "\n";
       }
-      outputString += "--end of printing--\n";
+      outputString += "\n--end of printing--\n";
     }
     else {
-      outputString = "Database is empty.\n";
+      outputString = "\nDatabase is empty.\n";
     }
     return outputString;
   }
@@ -269,14 +267,15 @@ public class AccountDatabase {
   public String printAccounts() { 
     String outputString = null;
     if(size != 0) {
-      outputString = "--Listing accounts in the database--\n";
+      outputString = "\n--Listing accounts in the database--\n";
       for(int i = 0; i < size; i++) {
+        outputString += "\n";
         outputString += accounts[i].toString() + "\n";
       }
-      outputString += "--end of listing--\n";
+      outputString += "\n--end of listing--\n";
     }
     else {
-      outputString = "Database is empty.\n";
+      outputString = "\nDatabase is empty.\n";
     }
     return outputString;
   }
