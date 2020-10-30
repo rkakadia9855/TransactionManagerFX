@@ -202,14 +202,24 @@ public class TransactionFXController {
         alert.showAndWait();
         validDataEntered = false;
       }
-      // change type from localdate to out date object
       LocalDate date = dateOpen.getValue();
-      
-      	String[] values = date.toString().split("-");
+      String[] values;
+      Date dateOpen = null;
+      if(date != null) { 
+      	 values = date.toString().split("-");
       	 int year = Integer.parseInt(values[0]);
          int month = Integer.parseInt(values[1]);
          int day = Integer.parseInt(values[2]);
-         Date dateOpen = new Date (month,day,year);
+         dateOpen = new Date (month,day,year);
+      }
+      else {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning!!");
+        alert.setHeaderText("Null value entered");
+        alert.setContentText("Date cannot be left null.");
+        alert.showAndWait();
+        validDataEntered = false;
+      }
         
       // we can use the isValid method of our transactionmanager date class to validate the date
       if(firstName.getText().equals("")) {
