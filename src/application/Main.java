@@ -13,11 +13,10 @@ public class Main extends Application {
     try {
       BorderPane root =
           (BorderPane) FXMLLoader.load(getClass().getResource("TransactionManagerFX.fxml"));
-      Scene scene = new Scene(root, 400, 400);
+      Scene scene = new Scene(root, 600, 410);
       scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
       primaryStage.setTitle("Transaction Manager");
       primaryStage.setScene(scene);
-      primaryStage.setMaximized(true);
       primaryStage.show();
     } catch (Exception e) {
       e.printStackTrace();

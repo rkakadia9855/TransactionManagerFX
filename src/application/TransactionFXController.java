@@ -1,8 +1,10 @@
 package application;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -122,7 +124,8 @@ public class TransactionFXController {
     void clearClicked(ActionEvent event) {
     	firstName.clear();
     	lastName.clear();
-    	dateOpen.getEditor().clear();
+    	//dateOpen.getEditor().clear();
+    	dateOpen.setValue(null);
     	balance.clear();
     	checking.setSelected(false);
     	savings.setSelected(false);
@@ -519,8 +522,23 @@ public class TransactionFXController {
       chooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"),
               new ExtensionFilter("All Files", "*.*"));
       Stage stage = new Stage();
-      File targeFile = chooser.showSaveDialog(stage); //get the reference of the target file
+      File targetFile = chooser.showSaveDialog(stage); //get the reference of the target file
       //write code to write to the file.
+      String exportData = db.printAccounts();
+      try (BufferedWriter writer = new BufferedWriter(new FileWriter(targetFile))) {
+        if(writer != null) {
+          writer.write(exportData);
+          writer.flush();
+          writer.close();
+          outputConsole.appendText("File was successfully exported to the selected location.\n");
+        }
+      } catch (Exception e) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning!!");
+        alert.setHeaderText("I/O Error");
+        alert.setContentText("An error occured while trying to export the data: ."+e.getMessage());
+        alert.showAndWait();
+      }
     }
 
     @FXML
@@ -706,10 +724,13 @@ public class TransactionFXController {
             }
           }
           else {
-            outputConsole.appendText("Invalid first command: "+command+". Exiting import.\n");
-            break;
+            outputConsole.appendText("Invalid first command: "+command+" on line "+lineNumber
+                +". Exiting import.\n");
+            continue;
           }
         }
+        
+        outputConsole.appendText("Data was imported from the file.\n");
 
       } catch (IOException e) {
         Alert alert = new Alert(AlertType.WARNING);
@@ -717,6 +738,12 @@ public class TransactionFXController {
         alert.setHeaderText("I/O Error");
         alert.setContentText("An error occured while trying to read from a file: "+
             sourceFile.getName());
+        alert.showAndWait();
+      } catch (NullPointerException e) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning!!");
+        alert.setHeaderText("I/O Error");
+        alert.setContentText("An error occured while trying to read from a file.");
         alert.showAndWait();
       }
       
