@@ -604,6 +604,8 @@ public class TransactionFXController {
             holder = new Profile(fname, lname);
             try {
               balance = Double.parseDouble(tokenizeLine.nextToken());
+              if(balance < 0)
+                throw new Exception();
             }
             catch(NumberFormatException excep) {
               outputConsole.appendText("Invalid argument type. Balance is not of type double "
@@ -612,7 +614,7 @@ public class TransactionFXController {
               continue;
             }
             catch(Exception excep) {
-              outputConsole.appendText("Invalid argument type. Balance is not of type double "
+              outputConsole.appendText("Invalid argument type. Balance cannot be negative: "
                   + "on line " + lineNumber + "."
                   + "Continuing with next line.\n");
               continue;
@@ -665,6 +667,8 @@ public class TransactionFXController {
             holder = new Profile(fname, lname);
             try {
               balance = Double.parseDouble(tokenizeLine.nextToken());
+              if(balance < 0)
+                throw new Exception();
             }
             catch(NumberFormatException excep) {
               outputConsole.appendText("Invalid argument type. Balance is not of type double "
@@ -673,7 +677,7 @@ public class TransactionFXController {
               continue;
             }
             catch(Exception excep) {
-              outputConsole.appendText("Invalid argument type. Balance is not of type double "
+              outputConsole.appendText("Invalid argument type. Balance cannot be negative: "
                   + "on line " + lineNumber + "."
                   + "Continuing with next line.\n");
               continue;
@@ -726,6 +730,8 @@ public class TransactionFXController {
             holder = new Profile(fname, lname);
             try {
               balance = Double.parseDouble(tokenizeLine.nextToken());
+              if(balance < 0)
+                throw new Exception();
             }
             catch(NumberFormatException excep) {
               outputConsole.appendText("Invalid argument type. Balance is not of type double "
@@ -734,7 +740,7 @@ public class TransactionFXController {
               continue;
             }
             catch(Exception excep) {
-              outputConsole.appendText("Invalid argument type. Balance is not of type double "
+              outputConsole.appendText("Invalid argument type. Balance cannot be negative: "
                   + "on line " + lineNumber + "."
                   + "Continuing with next line.\n");
               continue;
