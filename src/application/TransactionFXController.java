@@ -125,6 +125,8 @@ public class TransactionFXController {
     	firstName.clear();
     	lastName.clear();
     	//dateOpen.getEditor().clear();
+    	loyalCustomer.setDisable(false);
+    	directDeposit.setDisable(false);
     	dateOpen.setValue(null);
     	balance.clear();
     	checking.setSelected(false);
@@ -145,6 +147,7 @@ public class TransactionFXController {
             alert.setContentText("First Name cannot be left null.");
             alert.showAndWait();
             validDataEntered = false;
+            outputConsole.appendText("You need to enter your first name.\n");
           }
           if(lastName.getText().equals("")) {
             Alert alert = new Alert(AlertType.WARNING);
@@ -153,6 +156,7 @@ public class TransactionFXController {
             alert.setContentText("Last Name cannot be left null.");
             alert.showAndWait();
             validDataEntered = false;
+            outputConsole.appendText("You need to enter your last name.\n");
           }
           
           if(validDataEntered) {
@@ -190,8 +194,12 @@ public class TransactionFXController {
     		          outputConsole.appendText("Account does not exist." + "\n");
     		        }
     		        else {
-    		          outputConsole.appendText("Account closed and removed from the database." + "\n");
+    		          outputConsole.appendText("Account closed and removed from the database." 
+    		              + "\n");
     		        }
+        	  }
+        	  else {
+        	    outputConsole.appendText("You need to select an account type.\n");
         	  }
           }
     }
@@ -224,6 +232,7 @@ public class TransactionFXController {
           alert.setContentText("Please enter integers only in the textbox for balance.");
           alert.showAndWait();
           validDataEntered = false;
+          outputConsole.appendText("Balance must have a numeric data type.\n");
       }
       catch (Exception e) {
         Alert alert = new Alert(AlertType.WARNING);
@@ -232,6 +241,7 @@ public class TransactionFXController {
         alert.setContentText(e.getMessage());
         alert.showAndWait();
         validDataEntered = false;
+        outputConsole.appendText("Balance cannot be negative.\n");
       }
       LocalDate date = dateOpen.getValue();
       String[] values;
@@ -244,6 +254,7 @@ public class TransactionFXController {
          dateOpen = new Date (month,day,year);
          if(!dateOpen.isValid()) {
            validDataEntered = false;
+           outputConsole.appendText("Date you selected is invalid.\n");
          }
       }
       else {
@@ -253,6 +264,8 @@ public class TransactionFXController {
         alert.setContentText("Date cannot be left null.");
         alert.showAndWait();
         validDataEntered = false;
+        outputConsole.appendText("Select a date. If you are entering the date instead of selecting "
+            + "it, please select it using the provided date picker.\n");
       }
         
       // we can use the isValid method of our transactionmanager date class to validate the date
@@ -263,6 +276,7 @@ public class TransactionFXController {
         alert.setContentText("First Name cannot be left null.");
         alert.showAndWait();
         validDataEntered = false;
+        outputConsole.appendText("You need to enter your first name.\n");
       }
       if(lastName.getText().equals("")) {
         Alert alert = new Alert(AlertType.WARNING);
@@ -271,6 +285,7 @@ public class TransactionFXController {
         alert.setContentText("Last Name cannot be left null.");
         alert.showAndWait();
         validDataEntered = false;
+        outputConsole.appendText("You need to enter your last name.\n");
       }
       if(!checking.isSelected() && !savings.isSelected() && !moneymarket.isSelected()) {
         Alert alert = new Alert(AlertType.WARNING);
@@ -279,6 +294,7 @@ public class TransactionFXController {
         alert.setContentText("Please select the type of account you would like to open.");
         alert.showAndWait();
         validDataEntered = false;
+        outputConsole.appendText("Please select the type of account you would like to open.\n");
       }
       //AccountDatabase db = new AccountDatabase();
       if(validDataEntered) {
@@ -382,6 +398,7 @@ public class TransactionFXController {
           alert.setContentText("Please enter integers only in the textbox for amount.");
           alert.showAndWait();
           validDataEntered = false;
+          outputConsole.appendText("You must enter a numeric value in the amount field.\n");
       }
       catch (Exception e) {
         Alert alert = new Alert(AlertType.WARNING);
@@ -390,6 +407,7 @@ public class TransactionFXController {
         alert.setContentText(e.getMessage());
         alert.showAndWait();
         validDataEntered = false;
+        outputConsole.appendText("Amount cannot be negative.\n");
       }
       if(firstName2.getText().equals("")) {
         Alert alert = new Alert(AlertType.WARNING);
@@ -398,6 +416,7 @@ public class TransactionFXController {
         alert.setContentText("First Name cannot be left null.");
         alert.showAndWait();
         validDataEntered = false;
+        outputConsole.appendText("You need to enter your first name.\n");
       }
       if(lastName2.getText().equals("")) {
         Alert alert = new Alert(AlertType.WARNING);
@@ -406,6 +425,7 @@ public class TransactionFXController {
         alert.setContentText("Last Name cannot be left null.");
         alert.showAndWait();
         validDataEntered = false;
+        outputConsole.appendText("You need to enter your last name.\n");
       }
       if(validDataEntered) {
          int withdrawn = -1;
@@ -450,6 +470,7 @@ public class TransactionFXController {
           alert.setContentText("Please enter integers only in the textbox for amount.");
           alert.showAndWait();
           validDataEntered = false;
+          outputConsole.appendText("You must enter a numeric value in the amount field.\n");
       }
       catch (Exception e) {
         Alert alert = new Alert(AlertType.WARNING);
@@ -458,6 +479,7 @@ public class TransactionFXController {
         alert.setContentText(e.getMessage());
         alert.showAndWait();
         validDataEntered = false;
+        outputConsole.appendText("Amount cannot be negative.\n");
       }
       if(firstName2.getText().equals("")) {
         Alert alert = new Alert(AlertType.WARNING);
@@ -466,6 +488,7 @@ public class TransactionFXController {
         alert.setContentText("First Name cannot be left null.");
         alert.showAndWait();
         validDataEntered = false;
+        outputConsole.appendText("You need to enter your first name.\n");
       }
       if(lastName2.getText().equals("")) {
         Alert alert = new Alert(AlertType.WARNING);
@@ -474,6 +497,7 @@ public class TransactionFXController {
         alert.setContentText("Last Name cannot be left null.");
         alert.showAndWait();
         validDataEntered = false;
+        outputConsole.appendText("You need to enter your last name.\n");
       }
       if(validDataEntered) {
         Profile holder = new Profile(firstName2.getText(), lastName2.getText());
@@ -538,6 +562,7 @@ public class TransactionFXController {
         alert.setHeaderText("I/O Error");
         alert.setContentText("An error occured while trying to export the data: ."+e.getMessage());
         alert.showAndWait();
+        outputConsole.appendText("Unable to export the data to a file.\n");
       }
     }
 
@@ -584,7 +609,13 @@ public class TransactionFXController {
               outputConsole.appendText("Invalid argument type. Balance is not of type double "
                   + "on line " + lineNumber + "."
                   + "Continuing with next line.\n");
-              break;
+              continue;
+            }
+            catch(Exception excep) {
+              outputConsole.appendText("Invalid argument type. Balance is not of type double "
+                  + "on line " + lineNumber + "."
+                  + "Continuing with next line.\n");
+              continue;
             }
             dateString = tokenizeLine.nextToken();
             tokenizeDate = new StringTokenizer(dateString, "/");
@@ -595,6 +626,11 @@ public class TransactionFXController {
               year = Integer.parseInt(tokenizeDate.nextToken());
             }
             catch(NumberFormatException e) {
+              outputConsole.appendText("Input data type mismatch for date on line "+lineNumber
+                  + ". Continuing with next line\n");
+              continue;
+            }
+            catch(Exception excep) {
               outputConsole.appendText("Input data type mismatch for date on line "+lineNumber
                   + ". Continuing with next line\n");
               continue;
@@ -634,7 +670,13 @@ public class TransactionFXController {
               outputConsole.appendText("Invalid argument type. Balance is not of type double "
                   + "on line " + lineNumber + "."
                   + "Continuing with next line.\n");
-              break;
+              continue;
+            }
+            catch(Exception excep) {
+              outputConsole.appendText("Invalid argument type. Balance is not of type double "
+                  + "on line " + lineNumber + "."
+                  + "Continuing with next line.\n");
+              continue;
             }
             dateString = tokenizeLine.nextToken();
             tokenizeDate = new StringTokenizer(dateString, "/");
@@ -645,6 +687,11 @@ public class TransactionFXController {
               year = Integer.parseInt(tokenizeDate.nextToken());
             }
             catch(NumberFormatException e) {
+              outputConsole.appendText("Input data type mismatch for date on line "+lineNumber
+                  + ". Continuing with next line\n");
+              continue;
+            }
+            catch(Exception e) {
               outputConsole.appendText("Input data type mismatch for date on line "+lineNumber
                   + ". Continuing with next line\n");
               continue;
@@ -684,7 +731,13 @@ public class TransactionFXController {
               outputConsole.appendText("Invalid argument type. Balance is not of type double "
                   + "on line " + lineNumber + "."
                   + "Continuing with next line.\n");
-              break;
+              continue;
+            }
+            catch(Exception excep) {
+              outputConsole.appendText("Invalid argument type. Balance is not of type double "
+                  + "on line " + lineNumber + "."
+                  + "Continuing with next line.\n");
+              continue;
             }
             dateString = tokenizeLine.nextToken();
             tokenizeDate = new StringTokenizer(dateString, "/");
@@ -695,6 +748,11 @@ public class TransactionFXController {
               year = Integer.parseInt(tokenizeDate.nextToken());
             }
             catch(NumberFormatException e) {
+              outputConsole.appendText("Input data type mismatch for date on line "+lineNumber
+                  + ". Continuing with next line\n");
+              continue;
+            }
+            catch(Exception e) {
               outputConsole.appendText("Input data type mismatch for date on line "+lineNumber
                   + ". Continuing with next line\n");
               continue;
@@ -739,12 +797,22 @@ public class TransactionFXController {
         alert.setContentText("An error occured while trying to read from a file: "+
             sourceFile.getName());
         alert.showAndWait();
+        outputConsole.appendText("Unable to read from a file.\n");
       } catch (NullPointerException e) {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Warning!!");
         alert.setHeaderText("I/O Error");
         alert.setContentText("An error occured while trying to read from a file.");
         alert.showAndWait();
+        outputConsole.appendText("Unable to import from a file.\n");
+      }
+      catch (Exception e) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning!!");
+        alert.setHeaderText("I/O Error");
+        alert.setContentText("An error occured while trying to read from a file.");
+        alert.showAndWait();
+        outputConsole.appendText("Unable to import from a file.\n");
       }
       
     }

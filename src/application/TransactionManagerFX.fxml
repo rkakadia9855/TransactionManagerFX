@@ -29,7 +29,7 @@
 		<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 	</padding>
 	<top>
-		<TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" styleClass="light-primary-color-background" stylesheets="@application.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+		<TabPane maxHeight="410.0" maxWidth="600.0" prefHeight="200.0" prefWidth="200.0" styleClass="light-primary-color-background" stylesheets="@application.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
 			<tabs>
 				<Tab text="Open/Close Account">
 					<content>
@@ -253,7 +253,7 @@
 		</TabPane>
 	</top>
 	<center>
-		<TextArea fx:id="outputConsole" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" stylesheets="@application.css" BorderPane.alignment="CENTER">
+		<TextArea fx:id="outputConsole" editable="false" maxHeight="410.0" maxWidth="600.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@application.css" BorderPane.alignment="CENTER">
          <styleClass>
             <String fx:value="accentColor-background" />
             <String fx:value="primary-text" />
