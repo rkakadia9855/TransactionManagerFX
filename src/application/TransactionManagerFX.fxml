@@ -1,7 +1,3 @@
-<!-- 
- This class is the view class of the application
- @author John Juarez, Rudra Kakadia
- -->
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
