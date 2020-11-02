@@ -72,6 +72,7 @@ public abstract class Account {
         balance += amount;
     }
     
+    @Override
     /**
      * Builds the string representation of this account
      * @return - the string representation of this account

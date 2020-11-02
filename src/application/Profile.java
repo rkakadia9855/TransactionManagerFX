@@ -33,6 +33,7 @@ public class Profile {
       return this.lname;
     }
     
+    @Override
     /**
      * constructs the string representation of this profile
      * @return the string value of this profile

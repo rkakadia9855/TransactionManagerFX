@@ -1,3 +1,7 @@
+/**
+ * This class is the controller class for this application
+ * @author John Juarez, Rudra Kakadia
+ */
 package application;
 
 import java.io.BufferedReader;

@@ -1,3 +1,7 @@
+/**
+ * This class is used to styles the nodes and panes in the application
+ * @author John Juarez, Rudra Kakadia
+ */
 .buttonStyles {
     -fx-border-radius: 7;
     -fx-background-radius: 15;
